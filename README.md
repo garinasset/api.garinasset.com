@@ -1,4 +1,4 @@
-# [API 目录 © 嘉林数据](https://api.garinasset.com)
+# [API 目录](https://api.garinasset.com)
 
 基于 [![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)](https://nextjs.org/)  的 © 嘉林数据 [API 目录](https://github.com/garinasset/leak-check) 页面.
 
