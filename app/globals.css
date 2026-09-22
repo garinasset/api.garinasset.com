@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+  background: #000;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #e4e4e7;
+  color: #000;
+}
+
+.terminal-prompt {
+  white-space: nowrap;
+}
+
+.terminal-user-at-host {
+  color: #4ade80;
+}
+
+.terminal-path {
+  color: #a1a1aa;
+}
+
+.terminal-symbol {
+  color: #facc15;
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 0.55em;
+  height: 1.1em;
+  margin-left: 0.15em;
+  vertical-align: -0.15em;
+  background: #d4d4d8;
+  animation: terminal-blink 1s steps(1) infinite;
+}
+
+@keyframes terminal-blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
