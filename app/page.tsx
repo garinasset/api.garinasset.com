@@ -72,6 +72,20 @@ const lines: TerminalLine[] = [
       },
     ],
   },
+    {
+    type: 'api',
+    text: '❇️ 洞见',
+    links: [
+      {
+        label: 'API',
+        href: '#',
+      },
+      {
+        label: '官方应用',
+        href: '#',
+      },
+    ],
+  },
   {
     type: 'text',
     text: '',
