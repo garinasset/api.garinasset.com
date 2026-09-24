@@ -12,6 +12,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN">
+      <head>
+        <meta name="apple-mobile-web-app-title" content="API 目录" />
+      </head>
       <body>{children}</body>
     </html>
   )
