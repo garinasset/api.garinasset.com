@@ -8,7 +8,7 @@ interface TerminalLink {
 }
 
 interface TerminalLine {
-  type: 'command' | 'text' | 'api' | 'prompt'
+  type: 'command' | 'text' | 'api' | 'contact' | 'prompt'
   text?: string
   links?: TerminalLink[]
 }
@@ -93,6 +93,16 @@ const lines: TerminalLine[] = [
   {
     type: 'text',
     text: '未来我们还会做更多伟大的事情 .',
+  },
+  {
+    type: 'contact',
+    text: '✉️ ',
+    links: [
+      {
+        label: '联系我们',
+        href: 'mailto:contact@garinasset.com?subject=API 目录',
+      },
+    ],
   },
   {
     type: 'prompt',
@@ -193,6 +203,34 @@ function TypewriterLine({
                 </a>
               )
             })}
+          </span>
+        )}
+      </div>
+    )
+  }
+
+  if (line.type === 'contact') {
+    return (
+      <div>
+        {text.slice(0, count)}
+
+        {complete && line.links && (
+          <span className="ml-0">
+            {line.links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="
+                  text-zinc-400
+                  underline
+                  underline-offset-4
+                  transition-colors
+                  hover:text-white
+                "
+              >
+                {link.label}
+              </a>
+            ))}
           </span>
         )}
       </div>
