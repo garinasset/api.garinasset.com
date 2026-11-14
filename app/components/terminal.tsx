@@ -32,6 +32,20 @@ const lines: TerminalLine[] = [
   },
   {
     type: 'api',
+    text: '✅ 道岔 DNS',
+    links: [
+      {
+        label: 'CLI',
+        href: 'https://github.com/garinasset/updns',
+      },
+      {
+        label: '官方应用',
+        href: 'https://downloads.garinasset.com/updns/',
+      },
+    ],
+  },
+  {
+    type: 'api',
     text: '✅ IP 地理',
     links: [
       {
@@ -289,7 +303,7 @@ export function Terminal() {
               onComplete={
                 index === lineIndex
                   ? handleComplete
-                  : () => {}
+                  : () => { }
               }
             />
           ))}
