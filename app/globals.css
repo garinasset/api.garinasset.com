@@ -43,6 +43,10 @@ body {
   animation: terminal-blink 1s steps(1) infinite;
 }
 
+.terminal-line {
+  clip-path: inset(0 100% 0 0);
+}
+
 @keyframes terminal-blink {
   0%,
   50% {
@@ -52,5 +56,18 @@ body {
   51%,
   100% {
     opacity: 0;
+  }
+}
+
+@keyframes terminal-typewriter {
+  to {
+    clip-path: inset(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-line {
+    clip-path: none;
+    animation: none !important;
   }
 }

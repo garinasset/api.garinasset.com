@@ -1,7 +1,3 @@
-'use client'
-
-import { useEffect, useState } from 'react'
-
 interface TerminalLink {
   label: string
   href: string
@@ -12,6 +8,8 @@ interface TerminalLine {
   text?: string
   links?: TerminalLink[]
 }
+
+const TYPING_SPEED_MS = 16
 
 const lines: TerminalLine[] = [
   {
@@ -137,34 +135,8 @@ function Prompt() {
   )
 }
 
-function TypewriterLine({
-  line,
-  onComplete,
-}: {
-  line: TerminalLine
-  onComplete: () => void
-}) {
-  const [count, setCount] = useState(0)
-
+function TerminalLineView({ line }: { line: TerminalLine }) {
   const text = line.text ?? ''
-  const complete = count >= text.length
-
-  useEffect(() => {
-    if (complete) {
-      const timer = setTimeout(
-        onComplete,
-        text === '' ? 100 : 180,
-      )
-
-      return () => clearTimeout(timer)
-    }
-
-    const timer = setTimeout(() => {
-      setCount((value) => value + 1)
-    }, 16)
-
-    return () => clearTimeout(timer)
-  }, [count, complete, onComplete, text])
 
   if (line.type === 'command') {
     return (
@@ -172,7 +144,7 @@ function TypewriterLine({
         <Prompt />
 
         <span className="ml-2">
-          {text.slice(0, count)}
+          {text}
         </span>
       </div>
     )
@@ -181,9 +153,9 @@ function TypewriterLine({
   if (line.type === 'api') {
     return (
       <div>
-        {text.slice(0, count)}
+        {text}
 
-        {complete && line.links && (
+        {line.links && (
           <span className="ml-3 inline-flex flex-wrap gap-x-4">
             {line.links.map((link) => {
               const available = link.href !== '#'
@@ -226,9 +198,9 @@ function TypewriterLine({
   if (line.type === 'contact') {
     return (
       <div>
-        {text.slice(0, count)}
+        {text}
 
-        {complete && line.links && (
+        {line.links && (
           <span className="ml-0">
             {line.links.map((link) => (
               <a
@@ -261,16 +233,10 @@ function TypewriterLine({
     )
   }
 
-  return <div>{text.slice(0, count)}</div>
+  return <div>{text}</div>
 }
 
 export function Terminal() {
-  const [lineIndex, setLineIndex] = useState(0)
-
-  const handleComplete = () => {
-    setLineIndex((index) => index + 1)
-  }
-
   return (
     <section className="font-mono text-sm leading-7 text-zinc-300 sm:text-base">
       {/* 静态终端标题 */}
@@ -294,19 +260,30 @@ export function Terminal() {
 
       {/* 终端输出 */}
       <div className="mx-auto max-w-5xl px-5 py-8 sm:px-8 sm:py-10">
-        {lines
-          .slice(0, lineIndex + 1)
-          .map((line, index) => (
-            <TypewriterLine
+        {lines.map((line, index) => {
+          const delay = lines
+            .slice(0, index)
+            .reduce((total, previousLine) => {
+              const previousText = previousLine.text ?? ''
+
+              return total + previousText.length * TYPING_SPEED_MS
+            }, 0)
+          const textLength = line.text?.length ?? 0
+          const duration = textLength * TYPING_SPEED_MS
+          const steps = Math.max(textLength, 1)
+
+          return (
+            <div
               key={index}
-              line={line}
-              onComplete={
-                index === lineIndex
-                  ? handleComplete
-                  : () => { }
-              }
-            />
-          ))}
+              className="terminal-line"
+              style={{
+                animation: `terminal-typewriter ${duration}ms steps(${steps}, end) ${delay}ms both`,
+              }}
+            >
+              <TerminalLineView line={line} />
+            </div>
+          )
+        })}
       </div>
     </section>
   )
